@@ -34,13 +34,13 @@ classdef Car
     
     %% Data push and pull
 
-    % function output = pull(obj)
-    %     x = obj.position;	% calls get.position, calculates based on current velocity and time
-	%     v = obj.velocity;
-    %     t = obj.time;
+    function output = pull(obj)
+        x = obj.position;	% calls get.position, calculates based on current velocity and time
+	    v = obj.velocity;
+        t = obj.time;
         
-    %     output = struct('x', x);
-    % end
+        output = struct('x', x);
+    end
 
     function push2(obj, value)
         obj.velocity = value;
