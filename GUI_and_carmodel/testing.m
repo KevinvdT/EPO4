@@ -1,5 +1,6 @@
-car = Car;
+clear; clc;
+car = Car(5, 0);
 
-pause(0.5);
-
-car.pull()
+car
+car.push2(5);
+car
