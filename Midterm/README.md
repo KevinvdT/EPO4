@@ -4,7 +4,7 @@
 - <span style='font-variant: small-caps;'>Matlab</span>
 - <a href='https://www.mathworks.com/matlabcentral/fileexchange/50040-jebej-matlabwebsocket'><span style='font-variant: small-caps;'>Matlab</span> Websockets</a>
 
-For the unpacked app:
+For the unpackaged app:
 
 - Node
 - Yarn

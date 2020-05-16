@@ -10,7 +10,8 @@ export const addWebsocketToStore = ws => dispatch => {
   });
 };
 
-export const onMessageReceived = rawMessage => dispatch => {
+export const onMessageReceived = event => dispatch => {
+  const rawMessage = event.data;
   const message = JSON.parse(rawMessage);
   return dispatch({
     type: ON_MESSAGE_RECEIVED,
