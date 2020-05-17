@@ -1,4 +1,4 @@
-function output = EPOCommunication(messageType, message)
+function output = EPOCommunications(messageType, message)
     car = evalin('base', 'car;');
 
     switch messageType

@@ -25,6 +25,7 @@ classdef GuiServer < WebSocketServer
     
     methods (Access = protected)
         function onOpen(obj,conn,message)
+            fprintf('New connection!\n');
             fprintf('%s\n',message)
             obj.conn = conn;
             obj.isOpen = true;

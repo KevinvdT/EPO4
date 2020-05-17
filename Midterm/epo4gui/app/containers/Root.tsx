@@ -5,13 +5,13 @@ import { hot } from 'react-hot-loader/root';
 // import { History } from 'history';
 // import { Store } from '../reducers/types';
 // import Routes from '../Routes';
-import WebSocket from '../components/utils/WebSocket';
+import WebSocketUtil from '../components/utils/WebSocketUtil';
 
 // type Props = {
 //   store: Store;
 //   history: History;
 // };
 
-const Root = () => <WebSocket />;
+const Root = () => <WebSocketUtil />;
 
 export default hot(Root);
