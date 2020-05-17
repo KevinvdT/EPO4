@@ -14,12 +14,19 @@ classdef GuiServer < WebSocketServer
             %Constructor
             obj@WebSocketServer(varargin{:});
             obj.isOpen = false;
+            
         end
 
-        function sendStateLoop(obj)
+        function sendState(obj)
             % Receive car data
             carData = EPOCommunications('receive');
-            obj.conn.send(carData);
+            carDataJson = jsonencode(carData);
+            % If there is a connection (or more)
+            if ~isempty(obj.Connections)
+                % Send data to the connection (first one)
+                clientCode = obj.Connections(1).HashCode;
+                obj.sendTo(clientCode, carDataJson);
+            end
         end
     end
     
@@ -29,7 +36,6 @@ classdef GuiServer < WebSocketServer
             fprintf('%s\n',message)
             obj.conn = conn;
             obj.isOpen = true;
-            obj.sendStateLoop();
         end
         
         function onTextMessage(obj,conn,message)

@@ -70,7 +70,7 @@ classdef CarPlus < handle
             % Handle very small velocities
             if obj.velocity <= 0.1
                 obj.forceBraking = 0;
-                obj.velocity = 0;
+                % obj.velocity = 0;
             end
 
             % Compute forces

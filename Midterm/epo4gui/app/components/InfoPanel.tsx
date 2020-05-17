@@ -36,9 +36,11 @@ const Digits = styled.span`
 
 export default class InfoPanel extends Component {
   render() {
-    const { position } = this.props.carState;
-    const distance = position;
+    const { position, velocity, acceleration } = this.props.carState;
+    const distance = 600 - position;
     const distanceRounded = Math.round(distance);
+    const velocityRounded = Math.round(velocity);
+    const accelerationRounded = Math.round(acceleration * 100) / 100;
     return (
       <Container>
         <Block>
@@ -48,9 +50,13 @@ export default class InfoPanel extends Component {
           <BlockTitle>Voice Command</BlockTitle>
         </Block>
         <Block>
-          <BlockTitle>Distance from Wall</BlockTitle>
+          <BlockTitle>Car State</BlockTitle>
           <BlockBody>
             <Digits>{distanceRounded}</Digits> cm
+            <br />
+            <Digits>{velocityRounded}</Digits> cm/sec
+            <br />
+            <Digits>{accelerationRounded}</Digits> cm/sec<sup>2</sup>
           </BlockBody>
         </Block>
       </Container>
