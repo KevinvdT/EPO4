@@ -7,11 +7,11 @@ classdef CarPlus < handle
         velocity
         acceleration
         timestamp
-        mass = 13;
+        mass = 5.6;
         forceAcceleration
         forceBraking
-        bDrag = 0.0015;
-        cDrag = 0.02;
+        bDrag = 5;
+        cDrag = 0.1;
     end
     
     methods
@@ -76,11 +76,12 @@ classdef CarPlus < handle
             % Compute forces
             forceAcceleration = obj.forceAcceleration;
             forceBraking = obj.forceBraking;
-            forceDrag = (obj.bDrag * obj.velocity + obj.cDrag * obj.velocity^2);
+            forceDrag = (obj.bDrag * obj.velocity / 100 + obj.cDrag * (obj.velocity / 100)^2);
             force = forceAcceleration - forceBraking - forceDrag;
 
             % Update kinematics of the car
-            obj.acceleration = force / obj.mass;
+            % Times 100 for meters to centimeters
+            obj.acceleration = 100 * force / obj.mass;
             obj.velocity = obj.velocity + obj.acceleration * deltatime;
             obj.position = obj.position + obj.velocity * deltatime;
 
