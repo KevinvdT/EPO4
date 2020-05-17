@@ -4,7 +4,7 @@ export default class WebSocketUtil extends Component {
   state = {
     socket: null,
     carState: {
-      position: 10
+      position: 0
     }
   };
 

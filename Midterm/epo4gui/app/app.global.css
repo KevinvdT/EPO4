@@ -3,14 +3,21 @@
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
 @import '~@fortawesome/fontawesome-free/css/all.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto+Mono:wght@400;700&family=Balsamiq+Sans&display=swap');
 
 body {
   position: relative;
   color: white;
   height: 100vh;
   background-color: #50d6f9;
-  font-family: Arial, Helvetica, Helvetica Neue, serif;
+  font-family: 'Roboto Condensed', Arial, Helvetica, Helvetica Neue, serif;
+  font-weight: bold;
   overflow-y: hidden;
+  margin: 0;
+}
+
+#root {
+  height: 100vh;
 }
 
 h2 {
