@@ -1,7 +1,7 @@
 # Requirements
 
 - Windows 10 (other OS might work but not tested)
-- <span style='font-variant: small-caps;'>Matlab</span>
+- <span style='font-variant: small-caps;'>Matlab</span> (tested on version 2020a)
 - <a href='https://www.mathworks.com/matlabcentral/fileexchange/50040-jebej-matlabwebsocket'><span style='font-variant: small-caps;'>Matlab</span> Websockets</a>
 
 For the unpackaged app:
