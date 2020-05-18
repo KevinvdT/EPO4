@@ -73,6 +73,11 @@ classdef CarPlus < handle
                 % obj.velocity = 0;
             end
 
+            if obj.velocity < 0
+                obj.velocity = 0;
+                obj.acceleration = 0;
+            end
+
             % Compute forces
             forceAcceleration = obj.forceAcceleration;
             forceBraking = obj.forceBraking;
