@@ -27,6 +27,18 @@ classdef Controller < handle
             % Send car state to gui via websocket
             sendState(obj.server);
         end
+        
+        function handleVoiceCommand(obj, message)
+            command = voiceCommand;
+            switch command
+                case 0 
+                    obj.car.position = 0;
+                case 1
+                    driveForward(obj.car);
+                case 2
+                    brake(obj.car);
+            end
+        end
 
         function delete(obj)
             % Built-in Matlab class method

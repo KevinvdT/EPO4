@@ -22,10 +22,6 @@ pause(1);
 % this also starts the update loop
 controller = Controller;
 
-pause(0.2);
-
-% Open the GUI
-system('EPO4GUI.exe');
 
 
 

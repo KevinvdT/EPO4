@@ -21,6 +21,17 @@ export default class WebSocketUtil extends Component {
       const message = JSON.parse(rawMessage);
       this.setState({ carState: message });
     });
+    document.addEventListener(
+      'keydown',
+      event => {
+        if (event.keyCode === 32) {
+          const data = { type: 'voiceCommand' };
+          const message = JSON.stringify(data);
+          socket.send(message);
+        }
+      },
+      false
+    );
   }
   render() {
     return (

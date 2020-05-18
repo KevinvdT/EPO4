@@ -4,8 +4,7 @@ classdef GuiServer < WebSocketServer
     %   Detailed explanation goes here
     
     properties
-        conn;
-        isOpen;
+        isOpen
     end
     
     methods
@@ -23,9 +22,11 @@ classdef GuiServer < WebSocketServer
             carDataJson = jsonencode(carData);
             % If there is a connection (or more)
             if ~isempty(obj.Connections)
-                % Send data to the connection (first one)
-                clientCode = obj.Connections(1).HashCode;
-                obj.sendTo(clientCode, carDataJson);
+                % Send data to the connection
+                for index = length(obj.Connections)
+                    clientCode = obj.Connections(index).HashCode;
+                    obj.sendTo(clientCode, carDataJson);
+                end
             end
         end
     end
@@ -33,15 +34,20 @@ classdef GuiServer < WebSocketServer
     methods (Access = protected)
         function onOpen(obj,conn,message)
             fprintf('New connection!\n');
-            fprintf('%s\n',message)
-            obj.conn = conn;
+            fprintf('%s\n',message);
             obj.isOpen = true;
         end
         
         function onTextMessage(obj,conn,message)
             disp(message);
             % This function sends an echo back to the client
-            conn.send(message); % Echo
+            data = jsondecode(message);
+            controller = evalin('base', 'controller');
+            switch data.type
+                case 'voiceCommand'
+                    
+                    handleVoiceCommand(controller);
+            end
         end
         
         function onBinaryMessage(obj,conn,bytearray)
