@@ -1,14 +1,14 @@
 % Clear all left over variables in (base) workspace
 clear;
 
-% Load variabeles for the voice commands into (base) workspace
-load('LDA_model_OO_EE_Stop.mat');
-
 % Add Matlab Websockets package to current Matlab path
 addpath(genpath('MatlabWebSocket'));
 
 % Add the voice command code to the Matlab path
 addpath('voicecommands');
+
+% Load variabeles for the voice commands into (base) workspace
+load('LDA_model_OO_EE_Stop.mat');
 
 % Make car model object
 car = CarPlus;
