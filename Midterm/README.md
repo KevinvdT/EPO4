@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Windows 10 (other OS might work but not tested)
+- Windows 10 (other OS might work but is not tested)
 - <span style='font-variant: small-caps;'>Matlab</span> (tested on version 2020a)
 - <a href='https://www.mathworks.com/matlabcentral/fileexchange/50040-jebej-matlabwebsocket'><span style='font-variant: small-caps;'>Matlab</span> Websockets</a>
 - <a href='https://nl.mathworks.com/products/signal.html'><span style='font-variant: small-caps;'>Matlab</span> Signal Processing Toolbox</a>
