@@ -22,3 +22,5 @@ For the unpackaged GUI app (you can skip this, it should be embedded inside GUI.
 Open Matlab and run `start` ([start.m](./start.m)) in the Command Window.
 
 To stop, close the GUI window, and run `stop` ([stop.m](./stop.m)) in the Matlab Command Window.
+
+> If Matlab gives the error `Address already in use: bind`, please close the GUI window (if open) and restart Matlab.

@@ -1,0 +1,49 @@
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto+Mono:wght@400;700&family=Balsamiq+Sans&display=swap');
+
+body {
+  position: relative;
+  color: white;
+  height: 100vh;
+  background-color: #50d6f9;
+  font-family: 'Roboto Condensed', Arial, Helvetica, Helvetica Neue, serif;
+  font-weight: bold;
+  overflow-y: hidden;
+  margin: 0;
+}
+
+#root {
+  height: 100vh;
+}
+
+h2 {
+  margin: 0;
+  font-size: 2.25rem;
+  font-weight: bold;
+  letter-spacing: -0.025em;
+  color: #fff;
+}
+
+p {
+  font-size: 24px;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  color: white;
+  opacity: 0.75;
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
