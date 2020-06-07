@@ -22,9 +22,6 @@ pause(1);
 % this also starts the update loop
 controller = Controller;
 
-% Open the GUI
-system('GUI.lnk \n');
-
 
 
 

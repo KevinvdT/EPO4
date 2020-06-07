@@ -19,7 +19,7 @@ For the unpackaged GUI app (you can skip this, it should be embedded inside GUI.
 
 > Make sure the Matlab Websockets package is installed. The package includes a [readme-file](./MatlabWebSocket/README.md) on how to install it.
 
-Open Matlab and run `start` ([start.m](./start.m)) in the Command Window.
+Open Matlab and run `start` ([start.m](./start.m)) in the Command Window. After this, open [GUI.lnk](./GUI.lnk).
 
 To stop, close the GUI window, and run `stop` ([stop.m](./stop.m)) in the Matlab Command Window.
 
