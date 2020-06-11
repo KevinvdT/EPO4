@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 import Tile from "./Tile";
+import Map from "./Map";
 
 const Container = styled.div`
   display: flex;
@@ -78,9 +79,7 @@ export default class Page extends Component {
           <Tile areaName="parameters" title="Parameters">
             Parameters
           </Tile>
-          <Tile areaName="map" title="Map">
-            Map
-          </Tile>
+          <Map car={this.state.car} />
           <Tile areaName="bottom1" title="Position">
             x = {position.x} cm
             <br />y = {position.y} cm

@@ -69,7 +69,7 @@ classdef VehicleControl < VehicleClass
         function set_throttle(self, input_throttle)
             throttle           = max(min(input_throttle, 1.0), 0.0);
             self.set_throttle = throttle;
-           end
+        end
         function set_steer(self, input_steer_in_rad)
             input_steer = self.conv_rad_to_steer * input_steer_in_rad;
             steer = max(min(input_steer, 1.0), -1.0);
