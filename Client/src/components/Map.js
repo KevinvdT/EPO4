@@ -9,7 +9,6 @@ const Container = styled.div`
   grid-area: map;
   text-align: center;
   padding: 2rem;
-  border: 1px solid firebrick;
 `;
 
 const Svg = styled.svg`
@@ -29,6 +28,9 @@ const Car = function (props) {
       y={yPixels}
       width={carWidth}
       height={carHeight}
+      transform={`rotate(${theta} ${xPixels + carWidth / 2} ${
+        yPixels + carHeight / 2
+      })`}
       rx={12}
       fill="#00FAB0"
     />
@@ -62,7 +64,7 @@ export default class Map extends Component {
           {/* The car BEGIN */}
           <Car position={car.position} />
           {/* The car END */}
-          <rect
+          {/* <rect
             x="41.2487"
             y="593.836"
             width="66.8741"
@@ -79,7 +81,7 @@ export default class Map extends Component {
             rx={12}
             transform="rotate(90.0855 660.5 0.649658)"
             fill="#00FAB0"
-          />
+          /> */}
           <path
             d="M165.912 111.828L177.181 123.096L173.119 127.158L161.851 115.89L150.582 127.158L146.52 123.096L157.789 111.828L146.52 100.56L150.582 96.4979L161.851 107.766L173.119 96.4979L177.181 100.56L165.912 111.828Z"
             fill="#FF5353"

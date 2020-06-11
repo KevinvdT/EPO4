@@ -64,7 +64,6 @@ export default class Page extends Component {
 
     socket.addEventListener("message", (event) => {
       const data = JSON.parse(event.data);
-      console.log(data);
       // Update the received car state in the GUI
       if (data.car) this.setState({ car: data.car });
     });
@@ -72,6 +71,7 @@ export default class Page extends Component {
 
   render() {
     const { position, speed, acceleration } = this.state.car;
+
     return (
       <Container>
         <Grid>
