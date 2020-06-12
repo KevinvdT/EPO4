@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import Tile from "./Tile";
 import Map from "./Map";
+import Settings from "./Settings";
 
 const Container = styled.div`
   display: flex;
@@ -92,6 +93,7 @@ export default class Page extends Component {
             {acceleration} m/s<sup>2</sup>
           </Tile>
         </Grid>
+        <Settings />
       </Container>
     );
   }
