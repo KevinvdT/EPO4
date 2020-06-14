@@ -39,10 +39,21 @@ classdef Controller < WebSocketClient
 
         function message = makeGuiMessage(obj)
             global vehicle
-            position = struct('x', vehicle.current_x, 'y', vehicle.current_y, 'theta', vehicle.current_yaw);
-            speed = vehicle.current_speed;
-            acceleration = 0;
-            car = struct('position', position, 'speed', speed, 'acceleration', acceleration);
+            % position = struct('x', vehicle.current_x, 'y', vehicle.current_y, 'theta', vehicle.current_yaw);
+            % speed = vehicle.current_speed;
+            % waypoints = vehicle.waypoints;
+            % acceleration = 0;
+            % car = struct('position', position, 'speed', speed, 'acceleration', acceleration, 'waypoints', waypoints);
+            % messageStruct = struct('car', car);
+            car = struct;
+            car.position = struct;
+            car.position.x = vehicle.current_x;
+            car.position.y = vehicle.current_y;
+            car.position.theta = vehicle.current_yaw;
+            car.speed = vehicle.current_speed;
+            car.waypoints = vehicle.waypoints;
+            car.acceleration = 0;
+
             messageStruct = struct('car', car);
             message = jsonencode(messageStruct);
         end
@@ -57,9 +68,18 @@ classdef Controller < WebSocketClient
             obj.send('{"type": "MATLAB"}');
         end
         
-        function onTextMessage(obj,message)
-            % This function simply displays the message received
-            fprintf('Message received:\n%s\n',message);
+        function onTextMessage(obj,rawMessage)
+            fprintf('Message received (TEXT):\n%s\n', rawMessage);
+            global vehicle
+            message = jsondecode(rawMessage);
+
+            switch message.command
+                case 'SET_FINAL_POINT'
+                    vehicle.waypoints = [message.payload.x, message.payload.y];
+                    % typeof(message.payload.x)
+                otherwise
+                    fprintf('Message with unknown command received: %s\n', rawMessage);
+            end
         end
         
         function onBinaryMessage(obj,bytearray)

@@ -37,6 +37,34 @@ const Car = function (props) {
   );
 };
 
+const Waypoints = function (props) {
+  const locations = props.locations || [];
+  // window.locations = locations;
+  // const x = 300;
+  // const y = 100;
+  // console.log(locations);
+  // return null;
+  const [x, y] = locations;
+  return (
+    <path
+      key={`${x},${y}`}
+      d={`M${x},${y}l11.269,11.268l-4.062,4.062l-11.268,-11.268l-11.269,11.268l-4.062,-4.062l11.269,-11.268l-11.269,-11.268l4.062,-4.062l11.269,11.268l11.268,-11.268l4.062,4.062l-11.269,11.268z`}
+      fill="#FF5353"
+    />
+  );
+
+  // const waypointSvgElements = locations.map((x, y) => (
+  //   <path
+  //     key={`${x},${y}`}
+  //     d={`M${x},${y}l11.269,11.268l-4.062,4.062l-11.268,-11.268l-11.269,11.268l-4.062,-4.062l11.269,-11.268l-11.269,-11.268l4.062,-4.062l11.269,11.268l11.268,-11.268l4.062,4.062l-11.269,11.268z`}
+  //     fill="#FF5353"
+  //   />
+  //   // <p></p>
+  // ));
+
+  // return <React.Fragment>{waypointSvgElements}</React.Fragment>;
+};
+
 export default class Map extends Component {
   render() {
     const { car } = this.props;
@@ -82,10 +110,7 @@ export default class Map extends Component {
             transform="rotate(90.0855 660.5 0.649658)"
             fill="#00FAB0"
           /> */}
-          <path
-            d="M165.912 111.828L177.181 123.096L173.119 127.158L161.851 115.89L150.582 127.158L146.52 123.096L157.789 111.828L146.52 100.56L150.582 96.4979L161.851 107.766L173.119 96.4979L177.181 100.56L165.912 111.828Z"
-            fill="#FF5353"
-          />
+          <Waypoints locations={car.waypoints} />
         </Svg>
       </Container>
     );

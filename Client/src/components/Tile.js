@@ -14,7 +14,7 @@ const Header = styled.div`
   text-align: center;
   background: #4f4f4f;
   /* height: 3.1rem; */
-  flex: 0 0 3.1rem;
+  flex: 0 0 2.8rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -18,6 +18,10 @@ const Body = styled.div`
   padding: 0.5rem;
 `;
 
+const Title = styled.div``;
+
+const Icon = styled.div``;
+
 export default class Settings extends Component {
   render() {
     const style = {
@@ -41,10 +45,17 @@ export default class Settings extends Component {
         border: "none",
       },
     };
+
+    const { isOpen, closeSettings } = this.props;
     return (
-      <ReactModal isOpen={false} style={style}>
-        <Header>Settings</Header>
-        <Body>Imma settings dialog</Body>
+      <ReactModal isOpen={isOpen} style={style}>
+        <Header>
+          <Icon></Icon>
+          <Title>Settings</Title>
+        </Header>
+        <Body>
+          <div onClick={closeSettings}>Close me</div>
+        </Body>
       </ReactModal>
     );
   }

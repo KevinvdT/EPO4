@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 import Tile from "./Tile";
 import Map from "./Map";
-import Settings from "./Settings";
+// import Settings from "./Settings";
+import Parameters from "./Parameters";
 
 const Container = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ export default class Page extends Component {
       speed: 5,
       acceleration: 22,
     },
+    settingsOpen: true,
   };
 
   componentDidMount() {
@@ -68,18 +70,27 @@ export default class Page extends Component {
       // Update the received car state in the GUI
       if (data.car) this.setState({ car: data.car });
     });
+
+    this.setState({ socket });
+  };
+
+  openSettings = () => {
+    this.setState({ settingsOpen: true });
+  };
+
+  closeSettings = () => {
+    this.setState({ settingsOpen: false });
   };
 
   render() {
     const { position, speed, acceleration } = this.state.car;
+    const { socket } = this.state;
 
     return (
       <Container>
         <Grid>
           <Top>TU Delft · Electrical Engineering · EPO 4 Group A12</Top>
-          <Tile areaName="parameters" title="Parameters">
-            Parameters
-          </Tile>
+          <Parameters socket={socket} />
           <Map car={this.state.car} />
           <Tile areaName="bottom1" title="Position">
             x = {position.x} cm
@@ -93,7 +104,7 @@ export default class Page extends Component {
             {acceleration} m/s<sup>2</sup>
           </Tile>
         </Grid>
-        <Settings />
+        {/* <Settings isOpen={settingsOpen} closeSettings={this.closeSettings} /> */}
       </Container>
     );
   }

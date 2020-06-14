@@ -20,7 +20,7 @@ classdef VehicleControl < VehicleClass
             self.set_throttle       = 0;
             self.set_brake          = 0;
             self.set_steer          = 0;
-            waypoints               = [0,0;1,1;2,2];
+            waypoints               = [0,0;100,100;200,200];
             self.waypoints          = waypoints;
             self.conv_rad_to_steer  = 180.0 / 70.0 / pi;
             self.pi                 = pi;
