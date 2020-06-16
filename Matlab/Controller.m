@@ -1,6 +1,6 @@
 classdef Controller < WebSocketClient
-    % CONTROLLER Summary of this class goes here
-    %   Detailed explanation goes here
+    % CONTROLLER Controls the websocket connection to the web-based GUI (via the server)
+    %   (Detailed explanation goes here)
     
     properties
         updateTimer
@@ -8,7 +8,7 @@ classdef Controller < WebSocketClient
     
     methods
         function obj = Controller(varargin)
-            %Constructor
+            % Constructor
             obj@WebSocketClient(varargin{:});
             obj.updateTimer = timer();
             obj.updateTimer.ExecutionMode = 'fixedRate';
@@ -62,8 +62,6 @@ classdef Controller < WebSocketClient
         % WEBSOCKET FUNCTIONS
 
         function onOpen(obj,message)
-            % fprintf('%s\n',message);
-
             % Identify as Matlab to the websocket server
             obj.send('{"type": "MATLAB"}');
         end
@@ -81,7 +79,12 @@ classdef Controller < WebSocketClient
             switch message.command
 
                 % Message received to set parameters of the run
+                
                 case 'SET_PARAMETERS'
+                    % Parameters are in payload struct
+                    % See ../Client/src/components/Parameters.js
+                    % (class Parameters -> function handleSubmit -> variable messageObject)
+                    % for creation of this object/struct 
                     parameters = message.payload;
                     vehicle.current_x = parameters.startPoint.x;
                     vehicle.current_y = parameters.startPoint.y;
@@ -95,17 +98,20 @@ classdef Controller < WebSocketClient
         
         function onBinaryMessage(obj,bytearray)
             % This function simply displays the message received
+            % This is a standard function of a MatlabWebsocket client
             fprintf('Binary message received:\n');
             fprintf('Array length: %d\n',length(bytearray));
         end
         
         function onError(obj,message)
             % This function simply displays the message received
+            % This is a standard function of a MatlabWebsocket client
             fprintf('Error: %s\n',message);
         end
         
         function onClose(obj,message)
             % This function simply displays the message received
+            % This is a standard function of a MatlabWebsocket client
             fprintf('%s\n',message);
         end
 

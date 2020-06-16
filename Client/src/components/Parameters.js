@@ -16,6 +16,8 @@ export default class Parameters extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    // TODO: prevent need for parseInt() in creation of messageObject,
+    //       by doing this in this.handleChange() ?
     // Getting inputted parameters from state
     const {
       newStartPointX,
