@@ -4,6 +4,8 @@ import Tile from "./Tile";
 
 export default class Parameters extends Component {
   state = {
+    newStartPointX: null,
+    newStartPointY: null,
     newFinalPointX: null,
     newFinalPointY: null,
   };
@@ -14,14 +16,30 @@ export default class Parameters extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { newFinalPointX, newFinalPointY } = this.state;
+    // Getting inputted parameters from state
+    const {
+      newStartPointX,
+      newStartPointY,
+      newFinalPointX,
+      newFinalPointY,
+    } = this.state;
+
+    // Message to sent to Matlab
     const messageObject = {
-      command: "SET_FINAL_POINT",
+      command: "SET_PARAMETERS",
       payload: {
-        x: parseInt(newFinalPointX),
-        y: parseInt(newFinalPointY),
+        startPoint: {
+          x: parseInt(newStartPointX),
+          y: parseInt(newStartPointY),
+        },
+        finalPoint: {
+          x: parseInt(newFinalPointX),
+          y: parseInt(newFinalPointY),
+        },
       },
     };
+
+    // Sending message to Matlab
     const messageString = JSON.stringify(messageObject);
     this.props.socket.send(messageString);
   };
@@ -30,6 +48,26 @@ export default class Parameters extends Component {
     return (
       <Tile areaName="parameters" title="Parameters">
         <form onSubmit={this.handleSubmit}>
+          <label>
+            Start point x:
+            <input
+              type="number"
+              name="newStartPointX"
+              onChange={this.handleChange}
+            />
+            cm
+          </label>
+          <br />
+          <label>
+            Start point y:
+            <input
+              type="number"
+              name="newStartPointY"
+              onChange={this.handleChange}
+            />
+            cm
+          </label>
+          <br />
           <label>
             Final point x:
             <input

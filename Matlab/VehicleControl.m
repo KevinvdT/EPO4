@@ -20,10 +20,10 @@ classdef VehicleControl < VehicleClass
             self.set_throttle       = 0;
             self.set_brake          = 0;
             self.set_steer          = 0;
-            waypoints               = [0,0;100,100;200,200];
-            self.waypoints          = waypoints;
+            % waypoints               = [];
+            self.waypoints          = [];
             self.conv_rad_to_steer  = 180.0 / 70.0 / pi;
-            self.pi                 = pi;
+            % self.pi                 = pi;
                                 
         end    
        
@@ -42,6 +42,7 @@ classdef VehicleControl < VehicleClass
         function update_desired_speed(self)
         min_idx       = 0;
         min_dist      = inf;
+        % REVIEW (Kevin): desired_speed variable is unused?
         desired_speed = 20;
         for i = 1:(length(self.waypoints))
             dist = [self.waypoints(i,1) - self.current_x,
@@ -55,13 +56,13 @@ classdef VehicleControl < VehicleClass
             desired_speed = self.waypoints(min_idx,2);
                        
             else
-                desired_speed = self.waypoints(-1,2)
+                desired_speed = self.waypoints(-1,2);
             end
-            self.desired_speed = desired_speed
+            self.desired_speed = desired_speed;
         end
         
         function update_waypoints(self, new_waypoints)
-          self.waypoints = new_waypoints
+          self.waypoints = new_waypoints;
         end
         function commands = get_commands(self)
             commands =[self.set_throttle, self.set_steer, self.set_brake];

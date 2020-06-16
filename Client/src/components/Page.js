@@ -33,6 +33,17 @@ const Top = styled.div`
   text-align: center;
 `;
 
+const NumberLarge = styled.span`
+  font-size: 3em;
+  font-weight: bold;
+`;
+
+const UnitLarge = styled.span`
+  font-size: 1.6em;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+`;
+
 export default class Page extends Component {
   state = {
     socket: null,
@@ -98,10 +109,12 @@ export default class Page extends Component {
             <br />θ = {position.theta} deg
           </Tile>
           <Tile areaName="bottom2" title="Speed">
-            {speed} m/s
+            <NumberLarge>{speed}</NumberLarge>
+            <UnitLarge> cm/s</UnitLarge>
           </Tile>
           <Tile areaName="bottom3" title="Acceleration">
-            {acceleration} m/s<sup>2</sup>
+            <NumberLarge>{acceleration}</NumberLarge>
+            <UnitLarge> cm/s²</UnitLarge>
           </Tile>
         </Grid>
         {/* <Settings isOpen={settingsOpen} closeSettings={this.closeSettings} /> */}

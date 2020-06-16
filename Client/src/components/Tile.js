@@ -18,6 +18,7 @@ const Header = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-weight: bold;
 `;
 
 const Body = styled.div`

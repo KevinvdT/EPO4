@@ -1,5 +1,5 @@
 classdef Controller < WebSocketClient
-    %CLIENT Summary of this class goes here
+    % CONTROLLER Summary of this class goes here
     %   Detailed explanation goes here
     
     properties
@@ -38,13 +38,12 @@ classdef Controller < WebSocketClient
         end
 
         function message = makeGuiMessage(obj)
+            % MAKEGUIMESSAGE   Generates the string to be send to the GUI
+            % message = makeGuiMessage() collects the information that needs to be send
+            % to the GUI, and outputs a JSON formatted string that is ready
+            % to be send to the GUI.
             global vehicle
-            % position = struct('x', vehicle.current_x, 'y', vehicle.current_y, 'theta', vehicle.current_yaw);
-            % speed = vehicle.current_speed;
-            % waypoints = vehicle.waypoints;
-            % acceleration = 0;
-            % car = struct('position', position, 'speed', speed, 'acceleration', acceleration, 'waypoints', waypoints);
-            % messageStruct = struct('car', car);
+
             car = struct;
             car.position = struct;
             car.position.x = vehicle.current_x;
@@ -63,20 +62,32 @@ classdef Controller < WebSocketClient
         % WEBSOCKET FUNCTIONS
 
         function onOpen(obj,message)
-            % This function simply displays the message received
-            fprintf('%s\n',message);
+            % fprintf('%s\n',message);
+
+            % Identify as Matlab to the websocket server
             obj.send('{"type": "MATLAB"}');
         end
         
         function onTextMessage(obj,rawMessage)
             fprintf('Message received (TEXT):\n%s\n', rawMessage);
+            
+            % To access the vehicle-control object
             global vehicle
+
+            % Convert message from JSON to Matlab struct
             message = jsondecode(rawMessage);
 
+            % Perform action based on command
             switch message.command
-                case 'SET_FINAL_POINT'
-                    vehicle.waypoints = [message.payload.x, message.payload.y];
-                    % typeof(message.payload.x)
+
+                % Message received to set parameters of the run
+                case 'SET_PARAMETERS'
+                    parameters = message.payload;
+                    vehicle.current_x = parameters.startPoint.x;
+                    vehicle.current_y = parameters.startPoint.y;
+                    vehicle.waypoints = [parameters.finalPoint.x, parameters.finalPoint.y];
+
+                % If command not recognized
                 otherwise
                     fprintf('Message with unknown command received: %s\n', rawMessage);
             end
