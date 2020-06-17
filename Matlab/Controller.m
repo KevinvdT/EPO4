@@ -12,7 +12,7 @@ classdef Controller < WebSocketClient
             % Constructor
             obj@WebSocketClient(varargin{:});
 
-            obj.vehicleControl = VehicleControl();
+            global vehicleControl
 
             obj.updateTimer = timer();
             obj.updateTimer.ExecutionMode = 'fixedRate';
@@ -37,10 +37,14 @@ classdef Controller < WebSocketClient
     
     methods (Access = protected)
         function updateLoop(obj)
+            % disp('Update loop')
             % Send the current (car)data to the GUI (over the websocket)
-            obj.sendGuiMessage();
+            sendGuiMessage(obj);
+            % global x
+            % x = obj;
+            global vehicleControl
 
-            obj.vehicleControl.update();
+            update(vehicleControl);
         end
 
         function message = makeGuiMessage(obj)

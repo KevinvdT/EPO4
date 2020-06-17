@@ -77,28 +77,33 @@ classdef VehicleControl < VehicleClass
             kitt = EPOCommunications('open','P');	% create kitt (P = public, with access
                                     % to position, orientation, velocity)
             % self.kitt = kitt;
+            x = 5;
         end
 
         function startKitt(self)
             self.kittHasStarted = true;
         end
 
+        % REVIEW: Is dit een goede update functie?
         function update(self)
-            disp('hoi')
-            self.update_values();
-            self.update_desired_speed();
-            % self.update_waypoints();
-            self.update_controls(self.ii);
-            self.ii = self.ii + 1;
+            if self.kittHasStarted
+                self.update_values();
+                % self.update_desired_speed();
+                % self.update_waypoints();
+                % self.update_controls(self.ii);
+                
+                self.ii = 2;
+            end
         end
         
         function self = update_values(self)
             % update_values(self, x, y, yaw, speed, timestamp) 
             % Call this function in each iteration to update the value from KITT
             global kitt
+            % disp('upval')
+            % disp(kitt.position)
             self.current_x         = kitt.position(1); 
             self.current_y         = kitt.position(2);
-            disp(kitt.postion(2))
             self.current_yaw       = kitt.angle;
             self.current_speed     = kitt.velocity;
             self.current_timestamp = tic;
@@ -127,14 +132,14 @@ classdef VehicleControl < VehicleClass
                 end
             end
 
-            % TODO: Wat doet dit?
+            % REVIEW: Wat doet dit?
             % if min_idx < length(self.waypoints)-1
             %     desired_speed = self.waypoints(min_idx,2);
             % else
             %     desired_speed = self.waypoints(-1,2)
             % end
             
-            self.desired_speed = desired_speed
+            self.desired_speed = desired_speed;
         end
         
         function self = update_waypoints(self, new_waypoints)
@@ -166,6 +171,8 @@ classdef VehicleControl < VehicleClass
             self.set_brake = brake;
         end
         
+        % REVIEW: wat is i / ii?
+        % REVIEW: In deze functie gaat iets mis
         function self = update_controls(self,ii)
             % this is the main function that estimates the parameters for the force and steering angle and updates the values internally
             x               = self.current_x;
@@ -197,7 +204,9 @@ classdef VehicleControl < VehicleClass
                 inte_v = self.integral_error_previous + e_v * st;%finding the integral gain for PID
                 derivate = (e_v - self.error_previous) / st;     %finding the derivative gain for PID
                 acc = kp * e_v + ki * inte_v + kd * derivate;    %accumulated error
-
+                
+                % REVIEW: Hier gaat iets mis, acc is een uint64 ipv double
+                acc = double(acc);
                 if acc > 0
                     throttle_output = (tanh(acc) + 1)/2;
                     if throttle_output - self.throttle_previous > 0.1
@@ -213,7 +222,7 @@ classdef VehicleControl < VehicleClass
             % Finding the slope from using the formula (y2-y1) / (x2-x1)
             slope = (waypoints(ii-1,2)-waypoints(ii,2)) / (waypoints(ii-1,1)-waypoints(ii,1));
             
-            % FIXME Are these three variables below used? 
+            % REVIEW: Worden a b c wel gebruikt?
             a = -slope;
             b = 1.0;
             c = (slope*waypoints(ii,1)) - waypoints(ii-1,1);
