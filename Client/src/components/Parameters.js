@@ -6,6 +6,7 @@ export default class Parameters extends Component {
   state = {
     newStartPointX: null,
     newStartPointY: null,
+    newStartPointTheta: null,
     newFinalPointX: null,
     newFinalPointY: null,
   };
@@ -22,6 +23,7 @@ export default class Parameters extends Component {
     const {
       newStartPointX,
       newStartPointY,
+      newStartPointTheta,
       newFinalPointX,
       newFinalPointY,
     } = this.state;
@@ -33,6 +35,7 @@ export default class Parameters extends Component {
         startPoint: {
           x: parseInt(newStartPointX),
           y: parseInt(newStartPointY),
+          theta: parseInt(newStartPointTheta),
         },
         finalPoint: {
           x: parseInt(newFinalPointX),
@@ -68,6 +71,16 @@ export default class Parameters extends Component {
               onChange={this.handleChange}
             />
             cm
+          </label>
+          <br />
+          <label>
+            Start point θ:
+            <input
+              type="number"
+              name="newStartPointTheta"
+              onChange={this.handleChange}
+            />
+            deg
           </label>
           <br />
           <label>

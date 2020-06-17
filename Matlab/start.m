@@ -1,14 +1,19 @@
 % Clear everything previously opened in Matlab
+clearvars -global;
 clear all; close all; clc;
 
 % Add MatlabWebsocket directory and subdirectories to Matlab path
 addpath(genpath('MatlabWebSocket'));
 
+% Same for carmodel directory
+addpath(genpath('carmodel'));
+
 % Initializing the vehicle object
-global vehicle;
-vehicle = VehicleControl;
-vehicle.current_x = 50;
-vehicle.current_y = 200;
+global vehicleControl;
+global kitt;
+vehicleControl = VehicleControl();
+% vehicleControl.current_x = 50;
+% vehicleControl.current_y = 200;
 
 % Initilizing the controller, incl starting the websocket connection
 % to the GUI

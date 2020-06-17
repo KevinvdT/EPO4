@@ -44,11 +44,13 @@ const Waypoints = function (props) {
   // const y = 100;
   // console.log(locations);
   // return null;
-  const [x, y] = locations;
+  const [xPosition, yPosition] = locations;
+  const xPixels = maprange(xPosition, [0, 600], [0, 660]) + 8; // +8 to get to the actual center of the icon
+  const yPixels = maprange(yPosition, [600, 0], [0, 660]); // - carHeight / 2;
   return (
     <path
-      key={`${x},${y}`}
-      d={`M${x},${y}l11.269,11.268l-4.062,4.062l-11.268,-11.268l-11.269,11.268l-4.062,-4.062l11.269,-11.268l-11.269,-11.268l4.062,-4.062l11.269,11.268l11.268,-11.268l4.062,4.062l-11.269,11.268z`}
+      key={`${xPixels},${yPixels}`}
+      d={`M${xPixels},${yPixels}l11.269,11.268l-4.062,4.062l-11.268,-11.268l-11.269,11.268l-4.062,-4.062l11.269,-11.268l-11.269,-11.268l4.062,-4.062l11.269,11.268l11.268,-11.268l4.062,4.062l-11.269,11.268z`}
       fill="#FF5353"
     />
   );

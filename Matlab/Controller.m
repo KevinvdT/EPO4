@@ -4,12 +4,16 @@ classdef Controller < WebSocketClient
     
     properties
         updateTimer
+        vehicleControl
     end
     
     methods
         function obj = Controller(varargin)
             % Constructor
             obj@WebSocketClient(varargin{:});
+
+            obj.vehicleControl = VehicleControl();
+
             obj.updateTimer = timer();
             obj.updateTimer.ExecutionMode = 'fixedRate';
             obj.updateTimer.Period = 0.1;
@@ -35,6 +39,8 @@ classdef Controller < WebSocketClient
         function updateLoop(obj)
             % Send the current (car)data to the GUI (over the websocket)
             obj.sendGuiMessage();
+
+            obj.vehicleControl.update();
         end
 
         function message = makeGuiMessage(obj)
@@ -42,15 +48,15 @@ classdef Controller < WebSocketClient
             % message = makeGuiMessage() collects the information that needs to be send
             % to the GUI, and outputs a JSON formatted string that is ready
             % to be send to the GUI.
-            global vehicle
+            global vehicleControl
 
             car = struct;
             car.position = struct;
-            car.position.x = vehicle.current_x;
-            car.position.y = vehicle.current_y;
-            car.position.theta = vehicle.current_yaw;
-            car.speed = vehicle.current_speed;
-            car.waypoints = vehicle.waypoints;
+            car.position.x = vehicleControl.current_x;
+            car.position.y = vehicleControl.current_y;
+            car.position.theta = vehicleControl.current_yaw;
+            car.speed = vehicleControl.current_speed;
+            car.waypoints = vehicleControl.waypoints;
             car.acceleration = 0;
 
             messageStruct = struct('car', car);
@@ -70,7 +76,7 @@ classdef Controller < WebSocketClient
             fprintf('Message received (TEXT):\n%s\n', rawMessage);
             
             % To access the vehicle-control object
-            global vehicle
+            global vehicleControl
 
             % Convert message from JSON to Matlab struct
             message = jsondecode(rawMessage);
@@ -86,9 +92,10 @@ classdef Controller < WebSocketClient
                     % (class Parameters -> function handleSubmit -> variable messageObject)
                     % for creation of this object/struct 
                     parameters = message.payload;
-                    vehicle.current_x = parameters.startPoint.x;
-                    vehicle.current_y = parameters.startPoint.y;
-                    vehicle.waypoints = [parameters.finalPoint.x, parameters.finalPoint.y];
+                    vehicleControl.start_x = parameters.startPoint.x;
+                    vehicleControl.start_y = parameters.startPoint.y;
+                    vehicleControl.start_yaw = parameters.startPoint.theta;
+                    vehicleControl.waypoints = [parameters.finalPoint.x, parameters.finalPoint.y];
 
                 % If command not recognized
                 otherwise
