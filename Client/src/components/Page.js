@@ -49,14 +49,14 @@ export default class Page extends Component {
     socket: null,
     car: {
       position: {
-        x: 302,
-        y: 200,
-        theta: 20,
+        x: 300,
+        y: 300,
+        theta: 0,
       },
-      speed: 5,
-      acceleration: 22,
+      speed: 0,
+      acceleration: 0,
     },
-    settingsOpen: true,
+    settingsOpen: false,
   };
 
   componentDidMount() {

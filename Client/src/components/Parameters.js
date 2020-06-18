@@ -96,7 +96,7 @@ export default class Parameters extends Component {
               name="newStartPointTheta"
               onChange={this.handleChange}
             />
-            deg
+            deg from x-axis
           </label>
           <br />
           <label>

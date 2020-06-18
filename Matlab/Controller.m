@@ -43,8 +43,8 @@ classdef Controller < WebSocketClient
             % global x
             % x = obj;
             global vehicleControl
-
-            update(vehicleControl);
+            % disp('updateLoop')
+            update_all(vehicleControl);
         end
 
         function message = makeGuiMessage(obj)
@@ -97,7 +97,7 @@ classdef Controller < WebSocketClient
                     parameters = message.payload;
                     vehicleControl.start_x = parameters.startPoint.x;
                     vehicleControl.start_y = parameters.startPoint.y;
-                    vehicleControl.start_yaw = parameters.startPoint.theta;
+                    vehicleControl.start_yaw_deg = parameters.startPoint.theta;
                     vehicleControl.waypoints = [parameters.finalPoint.x parameters.finalPoint.y];
                 
                 case 'INITIALIZE_KITT'

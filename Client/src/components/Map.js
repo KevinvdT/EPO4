@@ -22,13 +22,14 @@ const Car = function (props) {
   const { x: xPosition, y: yPosition, theta } = props.position;
   const xPixels = maprange(xPosition, [0, 600], [0, 660]) - carWidth / 2;
   const yPixels = maprange(yPosition, [600, 0], [0, 660]) - carHeight / 2;
+  const rotationDeg = 90 - theta;
   return (
     <rect
       x={xPixels}
       y={yPixels}
       width={carWidth}
       height={carHeight}
-      transform={`rotate(${theta} ${xPixels + carWidth / 2} ${
+      transform={`rotate(${rotationDeg} ${xPixels + carWidth / 2} ${
         yPixels + carHeight / 2
       })`}
       rx={12}

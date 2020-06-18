@@ -4,7 +4,7 @@ classdef VehicleControl < VehicleClass
         %initializing PID controller to prevent garbage values
         start_x
         start_y
-        start_yaw
+        start_yaw_deg
         v_previous         = 0.0;
         t_previous         = 0.0;
         error_previous     = 0.0;
@@ -46,8 +46,12 @@ classdef VehicleControl < VehicleClass
             
 
             % initializations
-            EPOCommunications('init','X[100;0]');	% initial position of car
-            EPOCommunications('init','D[0;1]');	% initial direction of car
+            setPositionCommand = ['X[' int2str(self.start_x) ';' int2str(self.start_y) ']'];
+            EPOCommunications('init',setPositionCommand);	% initial position of car
+
+            directionVector = [cosd(self.start_yaw_deg), sind(self.start_yaw_deg)];
+            setOrientationCommand = ['D[' num2str(directionVector(1)) ';' num2str(directionVector(2)) ']'];
+            EPOCommunications('init', setOrientationCommand);	% initial direction of car
             
             P = [
             0   600     0   600;
@@ -86,21 +90,24 @@ classdef VehicleControl < VehicleClass
 
         function startKitt(self)
             self.kittHasStarted = true;
+            kitt.force = 155;
         end
 
         % REVIEW: Is dit een goede update functie?
-        function update(self)
+        function update_all(self)
             if self.kittHasStarted
+                disp('vehicleControl update()')
                 self.update_values();
+                
                 % self.update_desired_speed();
                 % self.update_waypoints();
                 self.update_controls();
-                
-                self.ii = 2;
+                % self.ii = 2;
             end
         end
         
         function self = update_values(self)
+            disp('vehicleControl update_values()')
             self.prev_x = self.current_x;
             self.prev_y = self.current_y;
             self.prev_yaw = self.current_yaw;
@@ -111,7 +118,7 @@ classdef VehicleControl < VehicleClass
             % disp(kitt.position)
             self.current_x         = kitt.position(1); 
             self.current_y         = kitt.position(2);
-            self.current_yaw       = atan2(kitt.orientation(2), kitt.orientation(1));
+            self.current_yaw       = atan2(kitt.orientation(2), kitt.orientation(1)) * 180 / (2*pi);
             self.current_speed     = kitt.velocity;
             self.current_timestamp = tic;
 
@@ -185,9 +192,9 @@ classdef VehicleControl < VehicleClass
             self.set_brake = brake;
         end
         
-        % REVIEW: wat is i / ii?
         % REVIEW: In deze functie gaat iets mis
         function self = update_controls(self)
+            global kitt
             % this is the main function that estimates the parameters for the force and steering angle and updates the values internally
             x               = self.current_x;
             y               = self.current_y;
@@ -307,7 +314,7 @@ classdef VehicleControl < VehicleClass
             steer_expect = max(-1.22, steer_expect);
 
             % Update
-            steer_output = steer_expect;
+            steer_output = max(min(0.45, steer_expect), -0.45);
 
             % Update the parameters of this class
             self.set_throttle = throttle_output;  % in percent (0 to 1)
@@ -321,7 +328,10 @@ classdef VehicleControl < VehicleClass
             self.integral_error_previous = inte_v;
 
             % TODO: Send those values to KITT
-
+            
+            kitt.angle = 100 + steer_output * 50 / 0.45;
+            kitt.force = 155;
+            
             end
         end
     end
