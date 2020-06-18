@@ -49,6 +49,22 @@ export default class Parameters extends Component {
     this.props.socket.send(messageString);
   };
 
+  sendKittInit = () => {
+    this.props.socket.send(
+      JSON.stringify({
+        command: "INITIALIZE_KITT",
+      })
+    );
+  };
+
+  sendKittStart = () => {
+    this.props.socket.send(
+      JSON.stringify({
+        command: "START_KITT",
+      })
+    );
+  };
+
   render() {
     return (
       <Tile areaName="parameters" title="Parameters">
@@ -105,6 +121,10 @@ export default class Parameters extends Component {
           <br />
           <input type="submit" value="Submit" />
         </form>
+        <br />
+        <button onClick={this.sendKittInit}>Init</button>
+        <br />
+        <button onClick={this.sendKittStart}>Start</button>
       </Tile>
     );
   }

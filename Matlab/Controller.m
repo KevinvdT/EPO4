@@ -89,7 +89,6 @@ classdef Controller < WebSocketClient
             switch message.command
 
                 % Message received to set parameters of the run
-                
                 case 'SET_PARAMETERS'
                     % Parameters are in payload struct
                     % See ../Client/src/components/Parameters.js
@@ -99,9 +98,15 @@ classdef Controller < WebSocketClient
                     vehicleControl.start_x = parameters.startPoint.x;
                     vehicleControl.start_y = parameters.startPoint.y;
                     vehicleControl.start_yaw = parameters.startPoint.theta;
-                    vehicleControl.waypoints = [parameters.finalPoint.x, parameters.finalPoint.y];
+                    vehicleControl.waypoints = [parameters.finalPoint.x parameters.finalPoint.y];
+                
+                case 'INITIALIZE_KITT'
+                    initializeKitt(vehicleControl);
 
-                % If command not recognized
+                case 'START_KITT'
+                    startKitt(vehicleControl);
+                
+                    % If command not recognized
                 otherwise
                     fprintf('Message with unknown command received: %s\n', rawMessage);
             end

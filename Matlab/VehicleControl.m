@@ -12,6 +12,10 @@ classdef VehicleControl < VehicleClass
         throttle_previous  = 0.0;
         ii
         kittHasStarted
+        finalPoint
+        prev_x
+        prev_y
+        prev_yaw
             
     end
 
@@ -90,13 +94,16 @@ classdef VehicleControl < VehicleClass
                 self.update_values();
                 % self.update_desired_speed();
                 % self.update_waypoints();
-                % self.update_controls(self.ii);
+                self.update_controls();
                 
                 self.ii = 2;
             end
         end
         
         function self = update_values(self)
+            self.prev_x = self.current_x;
+            self.prev_y = self.current_y;
+            self.prev_yaw = self.current_yaw;
             % update_values(self, x, y, yaw, speed, timestamp) 
             % Call this function in each iteration to update the value from KITT
             global kitt
@@ -104,7 +111,7 @@ classdef VehicleControl < VehicleClass
             % disp(kitt.position)
             self.current_x         = kitt.position(1); 
             self.current_y         = kitt.position(2);
-            self.current_yaw       = kitt.angle;
+            self.current_yaw       = atan2(kitt.orientation(2), kitt.orientation(1));
             self.current_speed     = kitt.velocity;
             self.current_timestamp = tic;
 
@@ -115,22 +122,28 @@ classdef VehicleControl < VehicleClass
         end
 
         function self = update_desired_speed(self)
+            % Returns 20 for now
+            % Can be changed to give different speed depending on distance to final point
+
             % Update the tracking speed. Generalised for now. 
             
             min_idx       = 0;
             min_dist      = inf;
             desired_speed = 20;
 
-            [numberOfWaypoints, ~] = size(self.waypoints);
+            % [numberOfWaypoints, ~] = size(self.waypoints);
 
-            for i = 1:numberOfWaypoints
-                dist = [self.waypoints(i,1) - self.current_x,
-                        self.waypoints(i,2) - self.current_y];
-                if dist < min_dist
-                    min_dist = dist;
-                    min_idx = i;
-                end
-            end
+            % for i = 1:numberOfWaypoints
+            %     dist = [self.waypoints(i,1) - self.current_x,
+            %             self.waypoints(i,2) - self.current_y];
+            %     if dist < min_dist
+            %         min_dist = dist;
+            %         min_idx = i;
+            %     end
+            % end
+
+            % Vector from current position to final position
+            dist = [self.waypoints(1,1) - self.current_x, self.waypoints(1,2) - self.current_y];
 
             % REVIEW: Wat doet dit?
             % if min_idx < length(self.waypoints)-1
@@ -138,6 +151,7 @@ classdef VehicleControl < VehicleClass
             % else
             %     desired_speed = self.waypoints(-1,2)
             % end
+
             
             self.desired_speed = desired_speed;
         end
@@ -173,7 +187,7 @@ classdef VehicleControl < VehicleClass
         
         % REVIEW: wat is i / ii?
         % REVIEW: In deze functie gaat iets mis
-        function self = update_controls(self,ii)
+        function self = update_controls(self)
             % this is the main function that estimates the parameters for the force and steering angle and updates the values internally
             x               = self.current_x;
             y               = self.current_y;
@@ -186,6 +200,8 @@ classdef VehicleControl < VehicleClass
             throttle_output = self.set_throttle;
             steer_output    = self.set_steer;
             brake_output    = self.set_brake;
+            ii = 1;
+            waypoints2 = [self.prev_x, self.prev_y];
 
             % self.v_previous = 0.0;
             % self.t_previous = 0.0;
@@ -219,16 +235,24 @@ classdef VehicleControl < VehicleClass
             %% Lateral controller
             k_e = 0.3;
 
-            % Finding the slope from using the formula (y2-y1) / (x2-x1)
-            slope = (waypoints(ii-1,2)-waypoints(ii,2)) / (waypoints(ii-1,1)-waypoints(ii,1));
+            % % Finding the slope from using the formula (y2-y1) / (x2-x1)
+            % slope = (waypoints(ii-1,2)-waypoints(ii,2)) / (waypoints(ii-1,1)-waypoints(ii,1));
             
-            % REVIEW: Worden a b c wel gebruikt?
-            a = -slope;
-            b = 1.0;
-            c = (slope*waypoints(ii,1)) - waypoints(ii-1,1);
+            % % REVIEW: Worden a b c wel gebruikt?
+            % a = -slope;
+            % b = 1.0;
+            % c = (slope*waypoints(ii,1)) - waypoints(ii-1,1);
 
             % Heading error
-            yaw_path = atan((waypoints(ii-1,2)-waypoints(ii,2))/ (waypoints(ii-1,1)-waypoints(ii,1)));
+            % yaw_path = atan((waypoints(ii-1,2)-waypoints(ii,2))/ (waypoints(ii-1,1)-waypoints(ii,1)));
+            traveled_path = [self.current_x - self.prev_x, self.current_y - self.prev_y];
+            yaw_path = atan2(traveled_path(2), traveled_path(1));
+
+            % current_yaw = self.current_yaw;
+            % target_yaw = atan2(waypoint(2), waypoint(1));
+
+            % yaw_path = target_yaw - current_yaw;
+
             
             % Finding the required angle to track the next waypoint
             yaw_diff_heading = yaw_path - yaw ;
@@ -247,7 +271,7 @@ classdef VehicleControl < VehicleClass
             current_xy = [x y];
 
             % crosstrack_error = min(sum((current_xy - [waypoints)[:, :2])^2, axis=1))
-            crosstrack_error= min(sum((current_xy - waypoints(ii,:))));
+            crosstrack_error= min(sum((current_xy - waypoints2(ii,:))));
             yaw_cross_track = atan(y-waypoints(ii,2)/ x-waypoints(ii,1));
             yaw_path2ct = yaw_path - yaw_cross_track
             
@@ -285,6 +309,7 @@ classdef VehicleControl < VehicleClass
             % Update
             steer_output = steer_expect;
 
+            % Update the parameters of this class
             self.set_throttle = throttle_output;  % in percent (0 to 1)
             self.set_steer = steer_output;        % in rad (-1.22 to 1.22)
             self.set_brake = brake_output;       % in percent (0 to 1)
@@ -293,7 +318,9 @@ classdef VehicleControl < VehicleClass
             self.throttle_previous = throttle_output;
             self.t_previous = t;
             self.error_previous = e_v;
-            self.integral_error_previous = inte_v;           
+            self.integral_error_previous = inte_v;
+
+            % TODO: Send those values to KITT
 
             end
         end
