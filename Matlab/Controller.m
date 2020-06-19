@@ -103,8 +103,16 @@ classdef Controller < WebSocketClient
                     % (class Parameters -> function handleSubmit -> variable messageObject)
                     % for creation of this object/struct 
                     parameters = message.payload;
+                    if parameters.startPoint.x < 10
+                        vehicleControl.start_x = 10;
+                    else
                     vehicleControl.start_x = parameters.startPoint.x;
-                    vehicleControl.start_y = parameters.startPoint.y;
+                    end
+                    if parameters.startPoint.y < 10
+                        vehicleControl.start_y = 10
+                    else
+                        vehicleControl.start_y = parameters.startPoint.y;
+                    end
                     vehicleControl.start_yaw_deg = parameters.startPoint.theta;
                     vehicleControl.waypoints = [parameters.finalPoint.x parameters.finalPoint.y];
                     vehicleControl.final_x = parameters.finalPoint.x;
