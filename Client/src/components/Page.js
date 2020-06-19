@@ -49,8 +49,8 @@ export default class Page extends Component {
     socket: null,
     car: {
       position: {
-        x: 300,
-        y: 300,
+        x: -999,
+        y: -999,
         theta: 0,
       },
       speed: 0,

@@ -108,11 +108,17 @@ classdef Controller < WebSocketClient
 
                 case 'START_KITT'
                     startKitt(vehicleControl);
+                
+                case 'VOICE_COMMAND'
+                    disp('Ready for voice command');
+                    predicted_word = voiceCommand();
+                    disp(['Predicted word: ' predicted_word]);
+                    
 
                 case 'RESTART_MATLAB'
                     evalin('base', 'start');
                 
-                    % If command not recognized
+                % If command not recognized
                 otherwise
                     fprintf('Message with unknown command received: %s\n', rawMessage);
             end

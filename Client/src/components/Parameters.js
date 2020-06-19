@@ -113,6 +113,14 @@ export default class Parameters extends Component {
     );
   };
 
+  sendStartVoiceCommand = () => {
+    this.props.socket.send(
+      JSON.stringify({
+        command: "VOICE_COMMAND",
+      })
+    );
+  };
+
   render() {
     return (
       <Tile areaName="parameters" title="Parameters">
@@ -176,6 +184,9 @@ export default class Parameters extends Component {
           <ButtonButton onClick={this.sendKittInit}>Init</ButtonButton>
           <br />
           <ButtonButton onClick={this.sendKittStart}>Start</ButtonButton>
+          <ButtonButton onClick={this.sendStartVoiceCommand}>
+            Voice Command
+          </ButtonButton>
           <ResetButton onClick={this.sendRestartMatlab}>
             Restart Matlab
           </ResetButton>

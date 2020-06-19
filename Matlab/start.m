@@ -3,6 +3,11 @@ clearvars -global;
 clear all; close all; clc;
 
 system('start cmd.exe @cmd /k "cd ../Server && node index.js"');
+
+% Add voice commands code to Matlab path
+addpath(genpath('voicecommands'));
+load('LDA_model_OO_EE_Stop.mat');
+
 % Add MatlabWebsocket directory and subdirectories to Matlab path
 addpath(genpath('MatlabWebSocket'));
 
