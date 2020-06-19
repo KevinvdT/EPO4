@@ -17,9 +17,7 @@
 - <a href='https://www.mathworks.com/matlabcentral/fileexchange/50040-jebej-matlabwebsocket'><span style='font-variant: small-caps;'>Matlab</span> Websockets</a>
 - [Node.js](https://nodejs.org/)
 
-# Getting Started
-
-## Installing
+## Installation
 
 Make sure that you are using a Windows 10 PC with Matlab 2020a installed, including the Signal Processing, Audio, Navigation, and Image Processing Toolboxes.
 
@@ -34,9 +32,9 @@ If Node.js is installed correctly, this will print:
 
     v12.18.1
 
-(or another version number.)'
+(or another version number.)
 
-## Running
+## Usage
 
 Open Matlab
 
