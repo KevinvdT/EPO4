@@ -99,7 +99,7 @@ classdef VehicleControl < VehicleClass
         x = 5;
 
         % ASTAR ALGORITHM
-        self.start_t = tic;				% start timer
+        % self.start_t = tic;				% start timer
         % vehicle = VehicleControl;
         image = imread('map.png');
         grayimage = rgb2gray(image);
@@ -123,6 +123,9 @@ classdef VehicleControl < VehicleClass
     end
 
     function startKitt(self)
+        if ~self.kittHasStarted
+            self.start_t = tic;
+        end
         self.kittHasStarted = true;
         % kitt.force = 155;
     end

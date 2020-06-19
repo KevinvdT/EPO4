@@ -94,7 +94,10 @@ export default class Page extends Component {
   };
 
   render() {
-    const { position, speed, acceleration } = this.state.car;
+    const { position, speed } = this.state.car;
+    let timer = this.state.car.timer || 0;
+    const timerSeconds = Math.floor(timer % 60);
+    const timerMinutes = Math.floor(timer / 60);
     const { socket } = this.state;
 
     return (
@@ -112,9 +115,15 @@ export default class Page extends Component {
             <NumberLarge>{Math.round(speed)}</NumberLarge>
             <UnitLarge> cm/s</UnitLarge>
           </Tile>
-          <Tile areaName="bottom3" title="Acceleration">
-            <NumberLarge>{Math.round(acceleration)}</NumberLarge>
-            <UnitLarge> cm/s²</UnitLarge>
+          <Tile areaName="bottom3" title="Timer">
+            {timerMinutes ? (
+              <React.Fragment>
+                <NumberLarge>{timerMinutes}</NumberLarge>
+                <UnitLarge> min </UnitLarge>
+              </React.Fragment>
+            ) : null}
+            <NumberLarge>{timerSeconds}</NumberLarge>
+            <UnitLarge> sec</UnitLarge>
           </Tile>
         </Grid>
         {/* <Settings isOpen={settingsOpen} closeSettings={this.closeSettings} /> */}

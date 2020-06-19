@@ -45,6 +45,7 @@ const onMessage = (rawData, ws) => {
     server.clients.forEach((ws) => {
       if (ws.type === receiveType) {
         ws.send(rawData);
+        if (receiveType === "MATLAB") console.log(rawData);
       }
     });
   }

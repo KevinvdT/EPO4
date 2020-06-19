@@ -16,14 +16,15 @@ const InputField = styled.input`
 `;
 
 const ButtonStyle = css`
-  color: black;
-  background: white;
+  color: white;
+  background: #868686;
   border: none;
-  padding: 0.4rem 1.8rem;
+  padding: 0.5rem 1.8rem;
   font-family: "Nunito Sans", sans-serif;
   font-weight: bold;
-  margin: 0.4rem;
+  margin: 1rem 0;
   display: block;
+  width: 100%;
 `;
 
 const InputButton = styled.input`
@@ -180,9 +181,9 @@ export default class Parameters extends Component {
             <br />
             <InputButton type="submit" value="Submit" />
           </form>
-          <br />
-          <ButtonButton onClick={this.sendKittInit}>Init</ButtonButton>
-          <br />
+
+          {/* <ButtonButton onClick={this.sendKittInit}>Init</ButtonButton> */}
+
           <ButtonButton onClick={this.sendKittStart}>Start</ButtonButton>
           <ButtonButton onClick={this.sendStartVoiceCommand}>
             Voice Command

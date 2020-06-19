@@ -23,18 +23,53 @@ const Car = function (props) {
   const xPixels = maprange(xPosition, [0, 600], [0, 660]) - carWidth / 2;
   const yPixels = maprange(yPosition, [600, 0], [0, 660]) - carHeight / 2;
   const rotationDeg = 90 - theta;
+  // x="563.811" y="487.272"
   return (
-    <rect
-      x={xPixels}
-      y={yPixels}
-      width={carWidth}
-      height={carHeight}
-      transform={`rotate(${rotationDeg} ${xPixels + carWidth / 2} ${
-        yPixels + carHeight / 2
-      })`}
-      rx={12}
-      fill="#00FAB0"
-    />
+    <React.Fragment>
+      <rect
+        x={xPixels}
+        y={yPixels}
+        width={carWidth}
+        height={carHeight}
+        transform={`rotate(${rotationDeg} ${xPixels + carWidth / 2} ${
+          yPixels + carHeight / 2
+        })`}
+        rx={12}
+        fill="#00FAB0"
+      />
+      {/* <g
+        transform={`rotate(${rotationDeg} ${xPixels + carWidth / 2} ${
+          yPixels + carHeight / 2
+        })`}
+      >
+        <path
+          d={`M${xPixels - 17},${
+            yPixels + 17
+          }c0,-2.21,1.791,-4,4,-4h20.766c2.209,0,4,1.79,4,4v5.085c0,2.209,-1.791,4,-4,4h-20.766c-2.209,0,-4,-1.791,-4,-4v-5.085z`}
+          fill="white"
+          fillOpacity="0.7"
+        />
+        <path
+          d={
+            "M529.054,539.915c0,-2.209,1.791,-4,4,-4h20.766c2.209,0,4,1.791,4,4v2.162c0,2.209,-1.791,4,-4,4h-20.766c-2.209,0,-4,-1.791,-4,-4v-2.162z"
+          }
+          fill="white"
+          fillOpacity="0.7"
+        />
+        <path
+          d={
+            "M532.547,489.821c0,-0.978,0.792,-1.77,1.77,-1.77h3.523c0.978,0,1.77,0.792,1.77,1.77c0,0.977,-0.792,1.77,-1.77,1.77h-3.523c-0.978,0,-1.77,-0.793,-1.77,-1.77z"
+          }
+          fill="white"
+        />
+        <path
+          d={
+            "M547.264,489.821c0,-0.978,0.793,-1.77,1.77,-1.77h3.523c0.978,0,1.77,0.792,1.77,1.77c0,0.977,-0.792,1.77,-1.77,1.77h-3.523c-0.977,0,-1.77,-0.793,-1.77,-1.77z"
+          }
+          fill="white"
+        />
+      </g> */}
+    </React.Fragment>
   );
 };
 

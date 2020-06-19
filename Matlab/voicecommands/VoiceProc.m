@@ -16,7 +16,7 @@ ov = 0.5*L;          % Overlap of 50%
 
 
 % Pitch estimation
-[f0,t_pitch] = FindPitch(x,Fs,L,ov);
+[f0,t_pitch] = FindPitch(x,Fs);
 
 
 % Formant estimation on the shortened sigal

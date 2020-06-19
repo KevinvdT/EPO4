@@ -63,6 +63,11 @@ classdef Controller < WebSocketClient
             car.speed = vehicleControl.current_speed;
             car.waypoints = vehicleControl.waypoints;
             car.acceleration = 0;
+            if isempty(vehicleControl.start_t)
+                car.timer = [];
+            else
+                car.timer = toc(vehicleControl.start_t);
+            end
 
             messageStruct = struct('car', car);
             message = jsonencode(messageStruct);
@@ -107,12 +112,20 @@ classdef Controller < WebSocketClient
                     initializeKitt(vehicleControl);
 
                 case 'START_KITT'
+                    if ~vehicleControl.kittHasInitialized
+                        initializeKitt(vehicleControl);
+                    end
                     startKitt(vehicleControl);
                 
                 case 'VOICE_COMMAND'
                     disp('Ready for voice command');
                     predicted_word = voiceCommand();
                     disp(['Predicted word: ' predicted_word]);
+                    if predicted_word == 2
+                        initializeKitt(vehicleControl);
+                        startKitt(vehicleControl);
+                    end
+
                     
 
                 case 'RESTART_MATLAB'
