@@ -24,7 +24,7 @@ const Header = styled.div`
 const Body = styled.div`
   flex: 1 0 auto;
   text-align: center;
-  padding: 0.5rem;
+  padding: 1.4rem;
 `;
 
 export default function Tile(props) {

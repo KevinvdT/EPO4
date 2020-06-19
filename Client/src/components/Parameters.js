@@ -1,6 +1,46 @@
 import React, { Component } from "react";
+import styled, { css } from "styled-components";
 
 import Tile from "./Tile";
+
+const InputField = styled.input`
+  background: none;
+  color: white;
+  font-family: "Nunito Sans", sans-serif;
+  padding: 0.2rem;
+  border: none;
+  border-bottom: 2px solid #9c9c9c;
+  width: 4rem;
+  margin: 0.2rem 0.2rem 0.2rem 1rem;
+  text-align: center;
+`;
+
+const ButtonStyle = css`
+  color: black;
+  background: white;
+  border: none;
+  padding: 0.4rem 1.8rem;
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: bold;
+  margin: 0.4rem;
+  display: block;
+`;
+
+const InputButton = styled.input`
+  ${ButtonStyle}
+`;
+
+const ButtonButton = styled.button`
+  ${ButtonStyle}
+`;
+
+const ResetButton = styled.button`
+  ${ButtonStyle}
+  color: white;
+  background: #ff5353;
+`;
+
+// const
 
 export default class Parameters extends Component {
   state = {
@@ -65,66 +105,81 @@ export default class Parameters extends Component {
     );
   };
 
+  sendRestartMatlab = () => {
+    this.props.socket.send(
+      JSON.stringify({
+        command: "RESTART_MATLAB",
+      })
+    );
+  };
+
   render() {
     return (
       <Tile areaName="parameters" title="Parameters">
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Start point x:
-            <input
-              type="number"
-              name="newStartPointX"
-              onChange={this.handleChange}
-            />
-            cm
-          </label>
+        <span style={{ textAlign: "left" }}>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Start point x:
+              <InputField
+                type="number"
+                name="newStartPointX"
+                onChange={this.handleChange}
+              />
+              cm
+            </label>
+            <br />
+            <label>
+              Start point y:
+              <InputField
+                type="number"
+                name="newStartPointY"
+                onChange={this.handleChange}
+              />
+              cm
+            </label>
+            <br />
+            <label>
+              Start point θ:
+              <InputField
+                type="number"
+                name="newStartPointTheta"
+                onChange={this.handleChange}
+              />
+              deg
+              <br />
+              from x-axis
+            </label>
+            <br />
+            <label>
+              Final point x:
+              <InputField
+                type="number"
+                name="newFinalPointX"
+                onChange={this.handleChange}
+              />
+              cm
+            </label>
+            <br />
+            <label>
+              Final point y:
+              <InputField
+                type="number"
+                name="newFinalPointY"
+                onChange={this.handleChange}
+              />
+              cm
+            </label>
+            <br />
+            <InputButton type="submit" value="Submit" />
+          </form>
           <br />
-          <label>
-            Start point y:
-            <input
-              type="number"
-              name="newStartPointY"
-              onChange={this.handleChange}
-            />
-            cm
-          </label>
+          <ButtonButton onClick={this.sendKittInit}>Init</ButtonButton>
           <br />
-          <label>
-            Start point θ:
-            <input
-              type="number"
-              name="newStartPointTheta"
-              onChange={this.handleChange}
-            />
-            deg from x-axis
-          </label>
-          <br />
-          <label>
-            Final point x:
-            <input
-              type="number"
-              name="newFinalPointX"
-              onChange={this.handleChange}
-            />
-            cm
-          </label>
-          <br />
-          <label>
-            Final point y:
-            <input
-              type="number"
-              name="newFinalPointY"
-              onChange={this.handleChange}
-            />
-            cm
-          </label>
-          <br />
-          <input type="submit" value="Submit" />
-        </form>
-        <br />
-        <button onClick={this.sendKittInit}>Init</button>
-        <br />
-        <button onClick={this.sendKittStart}>Start</button>
+          <ButtonButton onClick={this.sendKittStart}>Start</ButtonButton>
+          <ResetButton onClick={this.sendRestartMatlab}>
+            Restart Matlab
+          </ResetButton>
+        </span>
       </Tile>
     );
   }

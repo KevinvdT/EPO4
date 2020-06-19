@@ -104,16 +104,16 @@ export default class Page extends Component {
           <Parameters socket={socket} />
           <Map car={this.state.car} />
           <Tile areaName="bottom1" title="Position">
-            x = {position.x} cm
-            <br />y = {position.y} cm
-            <br />θ = {position.theta} deg
+            x = {Math.round(position.x)} cm
+            <br />y = {Math.round(position.y)} cm
+            <br />θ = {Math.round(position.theta)} deg
           </Tile>
           <Tile areaName="bottom2" title="Speed">
-            <NumberLarge>{speed}</NumberLarge>
+            <NumberLarge>{Math.round(speed)}</NumberLarge>
             <UnitLarge> cm/s</UnitLarge>
           </Tile>
           <Tile areaName="bottom3" title="Acceleration">
-            <NumberLarge>{acceleration}</NumberLarge>
+            <NumberLarge>{Math.round(acceleration)}</NumberLarge>
             <UnitLarge> cm/s²</UnitLarge>
           </Tile>
         </Grid>

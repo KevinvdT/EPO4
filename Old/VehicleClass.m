@@ -1,7 +1,7 @@
 classdef (Abstract) VehicleClass < handle
   
     % methods(Abstract)
-    %     update_values(self, x, y, yaw, speed, timestamp);
+    %     update_values(self, x, y, yaw, speed, timestamp, frame);
     % end
     properties
         current_x     

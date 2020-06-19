@@ -13,9 +13,8 @@
 - <a href='https://www.mathworks.com/matlabcentral/fileexchange/50040-jebej-matlabwebsocket'><span style='font-variant: small-caps;'>Matlab</span> Websockets</a>
 - <a href='https://nl.mathworks.com/products/signal.html'><span style='font-variant: small-caps;'>Matlab</span> Signal Processing Toolbox</a>
 - <a href='https://www.mathworks.com/products/audio.html'><span style='font-variant: small-caps;'>Matlab</span> Audio Toolbox</a>
-
-For the unpackaged GUI app (you can skip this):
-
+- [Matlab Navigation Toolbox](https://nl.mathworks.com/products/navigation.html)
+- [Matlab Image Processing Toolbox](https://www.mathworks.com/products/image.html)
 - [Node](https://nodejs.org/)
 
 ## Getting Started

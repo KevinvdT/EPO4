@@ -2,6 +2,7 @@
 clearvars -global;
 clear all; close all; clc;
 
+%system('start cmd.exe @cmd /k "cd ../Server && node index.js"');
 % Add MatlabWebsocket directory and subdirectories to Matlab path
 addpath(genpath('MatlabWebSocket'));
 
@@ -21,5 +22,3 @@ controller = Controller('ws://localhost:8080');
 
 % Opening the GUI in webbrowser
 %web('http://epo4gui.nl')
-
-

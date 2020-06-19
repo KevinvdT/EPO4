@@ -16,7 +16,7 @@ classdef Controller < WebSocketClient
 
             obj.updateTimer = timer();
             obj.updateTimer.ExecutionMode = 'fixedRate';
-            obj.updateTimer.Period = 0.1;
+            obj.updateTimer.Period = 0.2;
             obj.updateTimer.TimerFcn = @(~,~) updateLoop(obj);
             start(obj.updateTimer);
 
@@ -33,9 +33,6 @@ classdef Controller < WebSocketClient
             delete@WebSocketClient(obj);
         end
 
-    end
-    
-    methods (Access = protected)
         function updateLoop(obj)
             % disp('Update loop')
             % Send the current (car)data to the GUI (over the websocket)
@@ -46,6 +43,10 @@ classdef Controller < WebSocketClient
             % disp('updateLoop')
             update_all(vehicleControl);
         end
+
+    end
+    
+    methods (Access = protected)
 
         function message = makeGuiMessage(obj)
             % MAKEGUIMESSAGE   Generates the string to be send to the GUI
@@ -58,7 +59,7 @@ classdef Controller < WebSocketClient
             car.position = struct;
             car.position.x = vehicleControl.current_x;
             car.position.y = vehicleControl.current_y;
-            car.position.theta = vehicleControl.current_yaw;
+            car.position.theta = vehicleControl.current_yaw * 360 / (2*pi); % Converted from rad to deg
             car.speed = vehicleControl.current_speed;
             car.waypoints = vehicleControl.waypoints;
             car.acceleration = 0;
@@ -99,12 +100,17 @@ classdef Controller < WebSocketClient
                     vehicleControl.start_y = parameters.startPoint.y;
                     vehicleControl.start_yaw_deg = parameters.startPoint.theta;
                     vehicleControl.waypoints = [parameters.finalPoint.x parameters.finalPoint.y];
+                    vehicleControl.final_x = parameters.finalPoint.x;
+                    vehicleControl.final_y = parameters.finalPoint.y;
                 
                 case 'INITIALIZE_KITT'
                     initializeKitt(vehicleControl);
 
                 case 'START_KITT'
                     startKitt(vehicleControl);
+
+                case 'RESTART_MATLAB'
+                    evalin('base', 'start');
                 
                     % If command not recognized
                 otherwise
