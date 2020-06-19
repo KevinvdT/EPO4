@@ -135,7 +135,7 @@ classdef Controller < WebSocketClient
                     disp('Ready for voice command');
                     predicted_word = voiceCommand();
                     disp(['Predicted word: ' predicted_word]);
-                    if predicted_word == 2
+                    if true
                         initializeKitt(vehicleControl);
                         startKitt(vehicleControl);
                     end
