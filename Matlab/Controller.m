@@ -63,6 +63,8 @@ classdef Controller < WebSocketClient
             car.speed = vehicleControl.current_speed;
             car.waypoints = vehicleControl.waypoints;
             car.acceleration = 0;
+
+            % Time since start of run, value null (in JSON) when run not started
             if isempty(vehicleControl.start_t)
                 car.timer = [];
             else
@@ -109,15 +111,19 @@ classdef Controller < WebSocketClient
                     vehicleControl.final_y = parameters.finalPoint.y;
                 
                 case 'INITIALIZE_KITT'
+                    % Just initialize kitt, but don't start driving
                     initializeKitt(vehicleControl);
 
                 case 'START_KITT'
+                    % First initialize kitt (if it hasn't yet), \then start driving
                     if ~vehicleControl.kittHasInitialized
                         initializeKitt(vehicleControl);
                     end
                     startKitt(vehicleControl);
                 
                 case 'VOICE_COMMAND'
+                    % Listens for voice command
+                    % If voice command == 2, then initialize and start kitt
                     disp('Ready for voice command');
                     predicted_word = voiceCommand();
                     disp(['Predicted word: ' predicted_word]);
@@ -126,9 +132,8 @@ classdef Controller < WebSocketClient
                         startKitt(vehicleControl);
                     end
 
-                    
-
                 case 'RESTART_MATLAB'
+                    % Restarts everything in Matlab
                     evalin('base', 'start');
                 
                 % If command not recognized

@@ -155,8 +155,6 @@ export default class Parameters extends Component {
                 onChange={this.handleChange}
               />
               deg
-              <br />
-              from x-axis
             </label>
             <br />
             <label>
@@ -184,10 +182,10 @@ export default class Parameters extends Component {
 
           {/* <ButtonButton onClick={this.sendKittInit}>Init</ButtonButton> */}
 
-          <ButtonButton onClick={this.sendKittStart}>Start</ButtonButton>
           <ButtonButton onClick={this.sendStartVoiceCommand}>
             Voice Command
           </ButtonButton>
+          <ResetButton onClick={this.sendKittStart}>Manual Start</ResetButton>
           <ResetButton onClick={this.sendRestartMatlab}>
             Restart Matlab
           </ResetButton>

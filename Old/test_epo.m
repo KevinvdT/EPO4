@@ -8,17 +8,17 @@
 % addpath carmodel -begin
 
 clear variables;% needed to clear the internal state of EPOCommunications
-
+addpath(genpath('carmodel'));
 
 %---------------------------------------------------------------------------
 % initializations
 EPOCommunications('init','X[100;0]');	% initial position of car
 EPOCommunications('init','D[0;1]');	% initial direction of car
-%% Input stadrting location and direction here:
+%% Input starting location and direction here:
 st_x=100;
 st_y=50;
-en_x=500;
-en_y=150;
+en_x=300;
+en_y=200;
 %%
 loc_pos_start = [st_x;st_y-1];
 loc_dir_start = [0;1];
@@ -53,19 +53,19 @@ EPOCommunications('init',['O' bb]);	% initialize arena boundary
 
 
 % define obstacle position (polygons)
-O1 = [
-200 200 260 230; 
-200 240 240 200];	% first obstacle
-O2 = [
-350 380 410 410; 
-200 240 240 200];	% second obstacle
-oo = mat2str([O1 NAN O2]);
-EPOCommunications('init',['O' oo]);	% initialize obstacles
+%O1 = [
+%200 200 260 230; 
+%200 240 240 200];	% first obstacle
+%O2 = [
+%350 380 410 410; 
+%200 240 240 200];	% second obstacle
+%oo = mat2str([O1 NAN O2]);
+%EPOCommunications('init',['O' oo]);	% initialize obstacles
 
 % define two waypoints
 W = [
-st_x   en_x;
-st_y   en_y];
+100   400;
+100   400];
 ww = mat2str(W);
 EPOCommunications('init',['W' ww]);	% initialize waypoints
 
@@ -163,21 +163,9 @@ for n = 1:N,
     
     min_dist      = inf;
     for i = min_idx:refpath.NumStates-2
-        if x(2)>en_y
-           kitt.force =150;
-           break
-       end
-       if x(1)>en_x
-           break
-       end
-           kitt.force =150;
         dist = sqrt((refpath.States(i,1) - x(1))^2+(refpath.States(i,2) - x(2))^2);
         dist2 = sqrt((refpath.States(i+1,1) - x(1))^2+(refpath.States(i+1,2) - x(2))^2);
-        dist3 = sqrt((refpath.States(refpath.NumStates,1) - x(1))^2+(refpath.States(refpath.NumStates,2) - x(2))^2);
-        if dist3 < 15
-            kitt.force =150;
-           break
-        end
+        dist3 = sqrt((refpath.States(i+2,1) - x(1))^2+(refpath.States(i+2,2) - x(2))^2);
         if dist < min_dist
             min_dist = dist;
             min_idx = i;
@@ -190,26 +178,20 @@ for n = 1:N,
         else
              kitt.force =150;
         end
-       
+       if x(2)>en_y
+           kitt.force =150;
+       end
+       if x(1)>en_x
+           kitt.force =150;
+       end
        if dist2>dist
            break
-       end
        
+       elseif dist3 > dist2
+           break
+       end
     end
-    kitt.angle = (refpath.States(min_idx+2,3)-refpath.States(min_idx,3))*30*180/pi+150;
-    cross_trackerror = atan(kitt.orientation(2)/kitt.orientation(1))-refpath.States(min_idx,3);
-    if cross_trackerror>0
-        kitt.angle=kitt.angle-(cross_trackerror)*180/pi;
-    end
-%     crosstrack_error= min(sum((refpath.States(min_idx,3) - ));
-%         yaw_cross_track = atan(y-waypoints(i,2)/ x-waypoints(i,1));
-%         yaw_path2ct = yaw_path - yaw_cross_track
-%         if yaw_path2ct > pi
-%             yaw_path2ct =yaw_path2ct- 2 * pi;
-%         end
-%         if yaw_path2ct < - pi
-%             yaw_path2ct =yaw_path2ct+ 2 * pi;
-%         end
+    kitt.angle = (refpath.States(min_idx+2,3)-refpath.States(min_idx,3))*20*180/pi+150;
     
    kitt.angle;
 %  
